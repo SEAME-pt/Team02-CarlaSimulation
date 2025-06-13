@@ -20,8 +20,8 @@ import carla
 
 def camera_setup(ego_vehicle, bp_library, world):
     camera_bp = bp_library.find('sensor.camera.rgb')
-    camera_bp.set_attribute('image_size_x', '800')
-    camera_bp.set_attribute('image_size_y', '600')
+    camera_bp.set_attribute('image_size_x', '1024')
+    camera_bp.set_attribute('image_size_y', '512')
     camera_bp.set_attribute('fov', '105')
 
     camera_init_trans = carla.Transform(
@@ -34,7 +34,7 @@ def camera_setup(ego_vehicle, bp_library, world):
 
 def setup_carla_environment(num_traffic_vehicles = 150):
     client = carla.Client('127.0.0.1', 2000)
-    client.load_world("Town06")
+    client.load_world("Town04")
     client.set_timeout(60.0)
 
     world = client.get_world()
@@ -52,7 +52,7 @@ def setup_carla_environment(num_traffic_vehicles = 150):
     traffic_manager.global_percentage_speed_difference(20)
     traffic_manager.set_synchronous_mode(True)
 
-    main_spawn_index = 45
+    main_spawn_index = 50
     main_spawn_point = spawn_points[main_spawn_index]
     
     vehicle_bp = bp_library.find('vehicle.tesla.model3')
@@ -67,6 +67,7 @@ def setup_carla_environment(num_traffic_vehicles = 150):
         raise RuntimeError("Failed to spawn main vehicle at fixed location")
     
     remaining_spawn_points = [sp for i, sp in enumerate(spawn_points) if i != main_spawn_index]
+    random.shuffle(remaining_spawn_points)
 
     vehicle_bps = bp_library.filter('vehicle.*')
     
@@ -78,7 +79,7 @@ def setup_carla_environment(num_traffic_vehicles = 150):
         traffic_vehicle = world.try_spawn_actor(traffic_bp, remaining_spawn_points[i])
         if traffic_vehicle:
             traffic_vehicle.set_autopilot(True)
-            traffic_manager.set_desired_speed(traffic_vehicle, 15)
+            traffic_manager.set_desired_speed(traffic_vehicle, 0)
             traffic_vehicles.append(traffic_vehicle)
     
     print(f"Successfully spawned {len(traffic_vehicles)} traffic vehicles")
@@ -93,7 +94,7 @@ def setup_carla_environment(num_traffic_vehicles = 150):
 
 def main():
     # Run your simulation
-    client, world, vehicle, camera = setup_carla_environment(num_traffic_vehicles=150)
+    client, world, vehicle, camera = setup_carla_environment(num_traffic_vehicles=50)
 
     config = zenoh.Config()
     
@@ -101,7 +102,7 @@ def main():
     config.insert_json5("listen/endpoints", '["udp/0.0.0.0:7447"]')
     
     # Enable peer discovery
-    config.insert_json5("scouting/multicast/enabled", "true")
+    # config.insert_json5("scouting/multicast/enabled", "true")
     
     # Create session with network configuration
     session = zenoh.open(config)

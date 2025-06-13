@@ -6,6 +6,6 @@ opencv-python
 onnx
 onnxruntime
 pygame
-numpy
 carla
+numpy
 eclipse-zenoh==1.3.0
