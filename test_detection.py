@@ -20,8 +20,8 @@ import carla
 def camera_setup(ego_vehicle, bp_library, world):
     # We create the camera through a blueprint that defines its properties
     camera_bp = bp_library.find('sensor.camera.rgb')
-    camera_bp.set_attribute('image_size_x', '800')
-    camera_bp.set_attribute('image_size_y', '600')
+    camera_bp.set_attribute('image_size_x', '1024')
+    camera_bp.set_attribute('image_size_y', '512')
     camera_bp.set_attribute('fov', '105')
 
     # Create a transform to place the camera on top of the vehicle
@@ -91,8 +91,8 @@ def main():
     tm.ignore_lights_percentage(vehicle, 100)
 
     # Initialize detector with display reference
-    # detector = LaneDetection(display)
-    detector = ObjectDetection(display)
+    detector = LaneDetection(display)
+    # detector = ObjectDetection(display)
     detector.load_model()
     
     # Set up camera listener with the callback method

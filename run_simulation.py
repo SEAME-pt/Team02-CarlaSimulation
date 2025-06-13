@@ -52,7 +52,7 @@ def setup_carla_environment(num_traffic_vehicles = 150):
     traffic_manager.global_percentage_speed_difference(20)
     traffic_manager.set_synchronous_mode(True)
 
-    main_spawn_index = 50
+    main_spawn_index = 45
     main_spawn_point = spawn_points[main_spawn_index]
     
     vehicle_bp = bp_library.find('vehicle.tesla.model3')
@@ -102,7 +102,7 @@ def main():
     config.insert_json5("listen/endpoints", '["udp/0.0.0.0:7447"]')
     
     # Enable peer discovery
-    # config.insert_json5("scouting/multicast/enabled", "true")
+    config.insert_json5("scouting/multicast/enabled", "true")
     
     # Create session with network configuration
     session = zenoh.open(config)
@@ -183,7 +183,7 @@ def main():
         array = np.reshape(array, (image.height, image.width, 4))
         array = array[:, :, :3]
         
-        encode_param = [int(cv2.IMWRITE_JPEG_QUALITY), 30]
+        encode_param = [int(cv2.IMWRITE_JPEG_QUALITY), 85]
         _, encoded_image = cv2.imencode('.jpg', array, encode_param)
         
         image_bytes = encoded_image.tobytes()
