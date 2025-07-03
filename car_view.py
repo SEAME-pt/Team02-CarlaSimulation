@@ -188,10 +188,10 @@ def main():
     
     # Configuration for subscriber
     config = zenoh.Config()
-    # config.insert_json5("connect/endpoints", '["udp/100.119.72.83:7447", "udp/100.119.72.83:7450"]')
-    config.insert_json5("connect/endpoints", '["udp/0.0.0.0:7447", "udp/0.0.0.0:7450"]')
+    config.insert_json5("connect/endpoints", '["udp/100.119.72.83:7447", "udp/100.119.72.83:7450"]')
+    # config.insert_json5("connect/endpoints", '["udp/127.0.0.1:7447", "udp/127.0.0.1:7450"]')
     # config.insert_json5("connect/endpoints", '["udp/100.117.122.95:7447", "udp/100.117.122.95:7450"]')
-    # config.insert_json5("scouting/multicast/enabled", "true")
+    # config.insert_json5("scouting/multicast/enabled", "false")
 
     session = zenoh.open(config)
     
@@ -266,8 +266,8 @@ def create_and_show_grid(frame, ipm, lane_mask, obj_mask):
     """Create a 2x2 grid with images sized to a fixed output resolution"""
     
     # Define a fixed output size
-    FIXED_WIDTH = 1280  # Total width of combined view
-    FIXED_HEIGHT = 960  # Total height of combined view
+    FIXED_WIDTH = 1024 * 2  # Total width of combined view
+    FIXED_HEIGHT = 512 *2  # Total height of combined view
     
     # Calculate cell dimensions
     cell_width = FIXED_WIDTH // 2

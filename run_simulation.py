@@ -79,7 +79,7 @@ def setup_carla_environment(num_traffic_vehicles = 150):
         traffic_vehicle = world.try_spawn_actor(traffic_bp, remaining_spawn_points[i])
         if traffic_vehicle:
             traffic_vehicle.set_autopilot(True)
-            traffic_manager.set_desired_speed(traffic_vehicle, 0)
+            traffic_manager.set_desired_speed(traffic_vehicle, 10)
             traffic_vehicles.append(traffic_vehicle)
     
     print(f"Successfully spawned {len(traffic_vehicles)} traffic vehicles")
@@ -94,7 +94,7 @@ def setup_carla_environment(num_traffic_vehicles = 150):
 
 def main():
     # Run your simulation
-    client, world, vehicle, camera = setup_carla_environment(num_traffic_vehicles=50)
+    client, world, vehicle, camera = setup_carla_environment(num_traffic_vehicles=150)
 
     config = zenoh.Config()
     
